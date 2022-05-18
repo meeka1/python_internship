@@ -1,5 +1,4 @@
-from api import serializers
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 
 from core.models import Review
 from api.serializers.review_serializer import ReviewSerializer

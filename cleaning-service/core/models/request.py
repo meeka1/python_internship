@@ -12,4 +12,3 @@ class Request(models.Model):
     address = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     status_id = models.ForeignKey(RequestStatus, on_delete=models.CASCADE)
-
