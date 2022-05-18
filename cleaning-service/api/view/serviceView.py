@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from core.models.service import Service
-from ..serializers.serviceSerializer import ServiceSerializer
+from core.models import Service
+from api.serializers import ServiceSerializer
 
 
 class ServiceAPIView(APIView):
