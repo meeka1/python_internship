@@ -1,1 +1,1 @@
-from rest_framework.views import APIView
+from .service_view import ServiceAPIView
