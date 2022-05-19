@@ -1,11 +1,9 @@
 from django.db import models
-from .user import User
+from core.models.user import User
 
 ROLE_TYPES = { 
-    
     ("client", "Client"), 
     ("company", "Company"),
-
     }
 
 class Roles(models.Model):
