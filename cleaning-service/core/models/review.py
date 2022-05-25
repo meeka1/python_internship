@@ -1,9 +1,7 @@
 from django.db import models
-
-from .user import User
-from .service import Service
-from .request import Request
-
+from core.models.user import User
+from core.models.service import Service
+from core.models.request import Request
 
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
