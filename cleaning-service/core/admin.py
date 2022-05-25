@@ -1,11 +1,10 @@
 from django.contrib import admin
-
-from .models.requestStatus import RequestStatus
-from .models.review import Review
-from .models.request import Request
-from .models.user import User
-from .models.roles import Roles
-from .models.service import Service
+from core.models.requestStatus import RequestStatus
+from core.models.review import Review
+from core.models.request import Request
+from core.models.user import User
+from core.models.roles import Roles
+from core.models.service import Service
 
 admin.site.register(Request)
 admin.site.register(RequestStatus)

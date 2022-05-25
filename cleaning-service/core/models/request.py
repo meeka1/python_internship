@@ -1,8 +1,7 @@
 from django.db import models
-
-from .user import User
-from .requestStatus import RequestStatus
-from .service import Service
+from core.models.user import User
+from core.models.requestStatus import RequestStatus
+from core.models.service import Service
 
 class Request(models.Model):
     id = models.AutoField(primary_key=True)
@@ -12,4 +11,3 @@ class Request(models.Model):
     address = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     status_id = models.ForeignKey(RequestStatus, on_delete=models.CASCADE)
-

@@ -6,7 +6,6 @@ STATUSES = {  # Statuses of the request
     ("canceled", "Canceled"),
 }
 
-
 class RequestStatus(models.Model):
     status = models.CharField(verbose_name="Request status", max_length=15, choices=STATUSES, null=False)
 
