@@ -1,6 +1,0 @@
-from api.serializers.request_serializer import RequestSerializer
-from api.serializers.requestStatus_serializer import RequestStatusSerializer
-from api.serializers.review_serializer import ReviewSerializer
-from api.serializers.roles_serializer import RolesSerializer
-from api.serializers.service_serializer import ServiceSerializer
-from api.serializers.user_serializer import UserSerializer
