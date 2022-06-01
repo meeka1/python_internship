@@ -8,4 +8,4 @@ class User(models.Model):
     role = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.fullname
+        return self.fullname    
