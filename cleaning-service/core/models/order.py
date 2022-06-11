@@ -3,7 +3,7 @@ from core.models.user import User
 from core.models.requestStatus import RequestStatus
 from core.models.service import Service
 
-class Request(models.Model):
+class Order(models.Model):
     id = models.AutoField(primary_key=True)
     total_area = models.FloatField()
     total_cost = models.OneToOneField(Service, on_delete=models.CASCADE)
