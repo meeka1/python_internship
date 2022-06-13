@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from core.models.request import Request
+from core.models.order import Order
 
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Request
+        model = Order
         fields = "__all__"
