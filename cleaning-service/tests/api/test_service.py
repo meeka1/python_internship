@@ -1,14 +1,18 @@
 import pytest, json
 from mixer.backend.django import mixer
+from django.urls import reverse
 from core.models import service
+
 
 @pytest.mark.django_db
 def test_service_list(client, new_user):
    mixer.blend(service.Service, user_id = new_user)
-   response = client.get(f'http://127.0.0.1:8000/api/service/')
+   url = reverse('service_list')
+   response = client.get(url)
    assert response.json()!=None
    assert len(response.json())==1
    assert response.status_code==200
+
 
 @pytest.mark.django_db
 def test_service_create(client, new_user):
@@ -18,32 +22,35 @@ def test_service_create(client, new_user):
         'company':'Exadel',
         'user_id':new_user.id,
     }
-    url = f'http://127.0.0.1:8000/api/service/create/'
+    url = reverse('service_create')
     response = client.post(url, data)
 
     assert response.json() != None
     assert response.status_code == 201
-    assert  json.loads(response.content)["company"]==data["company"]
+    assert service.Service.objects.filter(name=data['name']).exists()
+
 
 @pytest.mark.django_db
 def test_service_detail(client, new_user):
     serv = mixer.blend(service.Service, user_id=new_user)
-    url = f'http://127.0.0.1:8000/api/service/{serv.id}/'
+    url = reverse('service_detail', kwargs={"pk":serv.id})
     response = client.get(url)
     res = response.content
     my_json = res.decode('utf8').replace("'", '"')
     data = json.loads(my_json)
-    url = f'http://127.0.0.1:8000/api/service/update/{serv.id}/'
+    url = reverse('service_update', kwargs={"pk":serv.id})
     response = client.put(url, data)
 
     assert response.json() != None
     assert response.status_code == 200
 
+
 @pytest.mark.django_db
 def test_service_delete(client):
     serv = mixer.blend(service.Service)
-    url = f'http://127.0.0.1:8000/api/service/delete/{serv.id}/'
+    url = reverse('service_delete', kwargs={"pk":serv.id})
     response = client.delete(url)
 
     assert response.status_code==204
     assert service.Service.objects.filter(pk=serv.id).exists()==False
+    

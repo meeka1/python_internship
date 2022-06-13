@@ -8,7 +8,8 @@ from core.models import review
 @pytest.mark.django_db
 def test_review_list(client, new_service, new_user, new_order):
     mixer.blend(review.Review, service_id=new_service, order_id=new_order, user_id=new_user)
-    response=client.get(f'http://127.0.0.1:8000/api/review/')
+    url = reverse('review_list')
+    response=client.get(url)
     assert response.json() != None
     assert len(response.json()) == 1
     assert response.status_code == 200
@@ -24,23 +25,23 @@ def test_review_create(client, new_service, new_user, new_order):
         "service_id": new_service.id,
         "user_id": new_user.id,
     }
-    url = (f'http://127.0.0.1:8000/api/review/create/')
+    url = reverse('review_create')
     response = client.post(url, data=data)
 
     assert response.json() != None
     assert response.status_code == 201
-    assert  json.loads(response.content)["order_id"]==data["order_id"]
+    assert review.Review.objects.filter(order_id=data["order_id"]).exists()
 
 
 @pytest.mark.django_db
 def test_review_detail(client, new_service, new_order):
     rev = mixer.blend(review.Review, service_id=new_service, order_id=new_order)
-    url = (f'http://127.0.0.1:8000/api/review/{rev.id}/')
+    url = reverse('review_detail', kwargs={"pk":rev.id})
     response = client.get(url)
     res = response.content
     my_json = res.decode('utf-8').replace("'", '"')
     data = json.loads(my_json)
-    url = (f'http://127.0.0.1:8000/api/review/update/{rev.id}/')
+    url = reverse('review_update', kwargs={"pk":rev.id})
     response = client.put(url, data)
 
     assert response.json() != None
@@ -50,9 +51,8 @@ def test_review_detail(client, new_service, new_order):
 @pytest.mark.django_db
 def test_review_delete(client, new_service, new_order):
     rev = mixer.blend(review.Review, service_id=new_service, order_id=new_order)
-    url = (f'http://127.0.0.1:8000/api/review/delete/{rev.id}/')
+    url = reverse('review_delete', kwargs={"pk":rev.id})
     response = client.delete(url)
 
     assert response.status_code == 204
     assert review.Review.objects.filter(pk=rev.id).exists()==False
-

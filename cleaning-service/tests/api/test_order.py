@@ -1,15 +1,19 @@
 import json
 import pytest
 from mixer.backend.django import mixer
+from django.urls import reverse
 from core.models import order
+
 
 @pytest.mark.django_db
 def test_order_list(client):
    mixer.blend(order.Order)
-   response = client.get(f'http://127.0.0.1:8000/api/order/')
+   url = reverse('order_list')
+   response = client.get(url)
    assert response.json()!=None
    assert len(response.json())==1
    assert response.status_code==200
+
 
 @pytest.mark.django_db
 def test_order_create(client, new_user, new_status, new_service):
@@ -21,31 +25,33 @@ def test_order_create(client, new_user, new_status, new_service):
         'created_at':'02-02-2002',
         'status_id':new_status.id,
     }
-    url = f'http://127.0.0.1:8000/api/order/create/'
+    url = reverse('order_create')
     response = client.post(url, data)
 
     assert response.json() != None
     assert response.status_code == 201
-    assert  json.loads(response.content)["address"]==data["address"]
+    assert order.Order.objects.filter(address=data["address"]).exists()
+
 
 @pytest.mark.django_db
 def test_order_detail(client):
     ord = mixer.blend(order.Order)
-    url = (f'http://127.0.0.1:8000/api/order/{ord.id}/')
+    url = reverse('order_detail', kwargs={"pk":ord.id})
     response = client.get(url)
     res = response.content
     my_json = res.decode('utf-8').replace("'", '"')
     data = json.loads(my_json)
-    url = (f'http://127.0.0.1:8000/api/order/update/{ord.id}/')
+    url = reverse('order_update', kwargs={"pk":ord.id})
     response = client.put(url, data)
 
     assert response.json() != None
     assert response.status_code == 200
 
+
 @pytest.mark.django_db
 def test_order_delete(client):
     ord = mixer.blend(order.Order)
-    url = (f'http://127.0.0.1:8000/api/order/delete/{ord.id}/')
+    url = reverse('order_delete', kwargs={"pk":ord.id})
     response = client.delete(url)
 
     assert response.status_code == 204
