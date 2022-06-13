@@ -54,4 +54,4 @@ def test_user_delete(client):
    response = client.delete(url)
 
    assert response.status_code==204
-   assert user.User.objects.filter(pk=userr.id).exists()==False
+   assert not user.User.objects.filter(pk=userr.id).exists()

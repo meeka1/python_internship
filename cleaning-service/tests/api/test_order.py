@@ -55,4 +55,4 @@ def test_order_delete(client):
     response = client.delete(url)
 
     assert response.status_code == 204
-    assert order.Order.objects.filter(pk=ord.id).exists()==False
+    assert not order.Order.objects.filter(pk=ord.id).exists()

@@ -55,4 +55,4 @@ def test_review_delete(client, new_service, new_order):
     response = client.delete(url)
 
     assert response.status_code == 204
-    assert review.Review.objects.filter(pk=rev.id).exists()==False
+    assert not review.Review.objects.filter(pk=rev.id).exists()

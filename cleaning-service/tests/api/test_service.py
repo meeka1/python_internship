@@ -52,5 +52,5 @@ def test_service_delete(client):
     response = client.delete(url)
 
     assert response.status_code==204
-    assert service.Service.objects.filter(pk=serv.id).exists()==False
+    assert not service.Service.objects.filter(pk=serv.id).exists()
     
